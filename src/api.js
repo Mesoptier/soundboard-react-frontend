@@ -1,5 +1,5 @@
 // @flow
-type Sample = {
+export type Sample = {
     id: string,
     path: string,
     name: string,

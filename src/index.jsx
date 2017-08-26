@@ -1,11 +1,17 @@
 // @flow
 import * as React from 'react';
-import { render } from 'react-dom';
+import * as ReactDOM from 'react-dom';
 
-import App from './components/App';
+import { fetchSamples } from './api';
+import SampleContainer from './components/SampleContainer';
 
 const container = document.createElement('div');
 if (document.body) {
     document.body.appendChild(container);
-    render(<App />, container);
+    render();
+}
+
+async function render() {
+    const samples = await fetchSamples();
+    ReactDOM.render(<SampleContainer samples={samples} />, container);
 }
