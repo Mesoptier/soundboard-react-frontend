@@ -1,11 +1,11 @@
 // @flow
 import * as React from 'react';
 
+import SampleContainer from '../containers/SampleContainer';
+
 function App() {
     return (
-        <div>
-            Hello, world!
-        </div>
+        <SampleContainer />
     );
 }
 
