@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react';
+import glamorous from 'glamorous';
 
 import type { Sample } from '../api';
 
@@ -7,15 +8,29 @@ type Props = {
     samples: Sample[],
 };
 
+const Container = glamorous.div({
+    display: 'flex',
+    flexWrap: 'wrap',
+});
+
+const Item = glamorous.div({
+    flex: '1 0 auto',
+    margin: 5,
+    padding: 10,
+    background: '#eee',
+
+    whiteSpace: 'nowrap',
+});
+
 function SampleContainer({ samples }: Props) {
     return (
-        <div>
+        <Container>
             {samples.map((sample: Sample) => (
-                <div key={sample.path}>
+                <Item key={sample.path}>
                     {sample.name}
-                </div>
+                </Item>
             ))}
-        </div>
+        </Container>
     );
 }
 
