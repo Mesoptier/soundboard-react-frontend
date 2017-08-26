@@ -1,20 +1,18 @@
-// @flow
 import * as React from 'react';
 import { Provider } from 'react-redux';
+import { Store } from 'redux';
 
 import App from '../components/App';
+import { State } from '../redux';
 
-type Props = {
-    // TODO: Use proper type
-    store: *,
-};
+export interface RootProps {
+    store: Store<State>;
+}
 
-function Root({ store }: Props) {
+export default function Root({ store }: RootProps) {
     return (
         <Provider store={store}>
             <App />
         </Provider>
     );
 }
-
-export default Root;

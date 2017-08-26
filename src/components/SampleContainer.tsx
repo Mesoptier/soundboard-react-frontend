@@ -1,8 +1,7 @@
-// @flow
 import * as React from 'react';
 import glamorous from 'glamorous';
 
-import type { Sample } from '../api';
+import { Sample } from '../api';
 
 type Props = {
     samples: Sample[],
