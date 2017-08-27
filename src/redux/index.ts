@@ -1,4 +1,4 @@
-import { combineReducers, createStore, Store } from 'redux';
+import { combineReducers, compose, createStore, Store } from 'redux';
 import samples, { SamplesState } from './samples/reducer';
 
 export interface State {
@@ -9,5 +9,7 @@ export function configureStore(): Store<State> {
     const reducer = combineReducers<State>({
         samples,
     });
-    return createStore<State>(reducer);
+
+    const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    return createStore<State>(reducer, composeEnhancers());
 }
