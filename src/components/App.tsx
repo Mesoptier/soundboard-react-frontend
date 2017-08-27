@@ -1,10 +1,14 @@
 import * as React from 'react';
 
 import SampleContainer from '../containers/SampleContainer';
+import Header from './Header';
 
 function App() {
     return (
-        <SampleContainer />
+        <div>
+            <Header />
+            <SampleContainer />
+        </div>
     );
 }
 
