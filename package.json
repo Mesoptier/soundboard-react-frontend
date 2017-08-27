@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack",
-    "server": "webpack-dev-server"
+    "server": "webpack-dev-server --hot"
   },
   "dependencies": {
     "glamor": "^2.20.40",
