@@ -3,10 +3,6 @@ import glamorous from 'glamorous';
 
 import { Sample } from '../api';
 
-type Props = {
-    samples: Sample[],
-};
-
 const Container = glamorous.div({
     display: 'flex',
     flexWrap: 'wrap',
@@ -21,15 +17,27 @@ const Item = glamorous.div({
     whiteSpace: 'nowrap',
 });
 
-function SampleContainer({ samples }: Props) {
+export interface SampleItemProps {
+    sample: Sample;
+}
+
+function SampleItem({ sample }: SampleItemProps) {
+    return (
+        <Item>
+            <div>{sample.name}</div>
+            <div>{sample.categories.join(' / ')}</div>
+        </Item>
+    );
+}
+
+export interface SampleContainerProps {
+    samples: Sample[];
+}
+
+function SampleContainer({ samples }: SampleContainerProps) {
     return (
         <Container>
-            {samples.map((sample: Sample) => (
-                <Item key={sample.path}>
-                    <div>{sample.name}</div>
-                    <div>{sample.categories.join(' / ')}</div>
-                </Item>
-            ))}
+            {samples.map((sample: Sample) => <SampleItem key={sample.path} sample={sample} />)}
         </Container>
     );
 }
