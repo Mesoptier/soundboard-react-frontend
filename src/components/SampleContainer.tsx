@@ -26,7 +26,8 @@ function SampleContainer({ samples }: Props) {
         <Container>
             {samples.map((sample: Sample) => (
                 <Item key={sample.path}>
-                    {sample.name}
+                    <div>{sample.name}</div>
+                    <div>{sample.categories.join(' / ')}</div>
                 </Item>
             ))}
         </Container>
