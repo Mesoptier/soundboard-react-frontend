@@ -1,29 +1,26 @@
 import * as React from 'react';
 import glamorous from 'glamorous';
+import { CellMeasurerCache } from 'react-virtualized';
 
 import { Sample } from '../api';
-
-const Container = glamorous.div({
-    display: 'flex',
-    flexWrap: 'wrap',
-});
+import FlexGrid, { FlexGridCellRenderer } from './FlexGrid';
 
 const Item = glamorous.div({
-    flex: '1 0 auto',
-    margin: 5,
     padding: 10,
-    background: '#eee',
+    boxSizing: 'border-box',
 
+    background: '#eee',
     whiteSpace: 'nowrap',
 });
 
 export interface SampleItemProps {
     sample: Sample;
+    style: React.CSSProperties;
 }
 
-function SampleItem({ sample }: SampleItemProps) {
+function SampleItem({ sample, style }: SampleItemProps) {
     return (
-        <Item>
+        <Item style={style}>
             <div>{sample.name}</div>
             <div>{sample.categories.join(' / ')}</div>
         </Item>
@@ -34,12 +31,28 @@ export interface SampleContainerProps {
     samples: Sample[];
 }
 
-function SampleContainer({ samples }: SampleContainerProps) {
-    return (
-        <Container>
-            {samples.map((sample: Sample) => <SampleItem key={sample.path} sample={sample} />)}
-        </Container>
-    );
-}
+export default class SampleContainer extends React.Component<SampleContainerProps> {
 
-export default SampleContainer;
+    private cellMeasurerCache = new CellMeasurerCache({
+        defaultWidth: 100,
+        fixedHeight: true,
+        keyMapper: rowIndex => this.props.samples[rowIndex].path,
+    });
+
+    cellRenderer: FlexGridCellRenderer = ({ index, style }) => (
+        <SampleItem sample={this.props.samples[index]} style={style} />
+    );
+
+    render() {
+        return (
+            <FlexGrid
+                width={1000}
+                height={500}
+                cellCount={this.props.samples.length}
+                cellRenderer={this.cellRenderer}
+                cellMeasurerCache={this.cellMeasurerCache}
+            />
+        );
+    }
+
+}

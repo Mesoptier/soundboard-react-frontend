@@ -13,6 +13,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
+    "react-virtualized": "^9.9.0",
     "redux": "^3.7.2",
     "reselect": "^3.0.1"
   },
@@ -21,6 +22,7 @@
     "@types/react-addons-perf": "^0.14.18",
     "@types/react-dom": "^15.5.4",
     "@types/react-redux": "^5.0.5",
+    "@types/react-virtualized": "^9.7.3",
     "awesome-typescript-loader": "^3.2.3",
     "html-webpack-plugin": "^2.30.1",
     "react-addons-perf": "^15.4.2",
