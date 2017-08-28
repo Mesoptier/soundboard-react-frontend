@@ -5,7 +5,8 @@ import { State } from '../redux';
 import { getVisibleSamples } from '../redux/samples/selectors';
 
 const mapStateToProps = (state: State) => ({
-    samples: getVisibleSamples(state),
+    // FIXME: Temporarily render only 100 items
+    samples: getVisibleSamples(state).slice(0, 100),
 });
 
 export default connect(mapStateToProps)(SampleContainer);
