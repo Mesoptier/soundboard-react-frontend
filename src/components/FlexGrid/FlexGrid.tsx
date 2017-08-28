@@ -4,6 +4,9 @@ import {
     CollectionCellSizeAndPositionGetter,
 } from 'react-virtualized';
 
+import PositionCache from './PositionCache';
+import createCellPositioner, { CellPositioner } from './createCellPositioner';
+
 export interface FlexGridCellRendererParams {
     index: number;
     key: string;
@@ -25,15 +28,30 @@ interface FlexGridProps {
 export default class FlexGrid extends React.Component<FlexGridProps> {
 
     private collection: Collection;
-    private invalidateOnUpdate = false;
+    private cellPositioner: CellPositioner;
 
-    //componentDidMount() {
-    //    this.checkInvalidateOnUpdate();
-    //}
-    //
-    //componentDidUpdate() {
-    //    this.checkInvalidateOnUpdate();
-    //}
+    private repositionOnUpdate = false;
+    private positionCache = new PositionCache();
+
+    constructor(props: FlexGridProps) {
+        super(props);
+
+        this.cellPositioner = createCellPositioner({
+            cellMeasurerCache: this.props.cellMeasurerCache,
+            positionCache: this.positionCache,
+            width: this.props.width,
+            rowHeight: 60,
+            spacing: 10,
+        });
+    }
+
+    componentDidMount() {
+        this.checkRepositionOnUpdate();
+    }
+
+    componentDidUpdate() {
+        this.checkRepositionOnUpdate();
+    }
 
     render() {
         return (
@@ -52,21 +70,25 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
     private setCollectionRef = (ref: Collection) => this.collection = ref;
 
     private invalidateCellSizeAfterRender = ({ rowIndex }: { rowIndex: number }) => {
-        this.invalidateOnUpdate = true;
-        this.collection.calculateSizeAndPositionData();
-        this.collection.forceUpdate();
+        this.repositionOnUpdate = true;
+        //this.collection.calculateSizeAndPositionData();
+        //this.collection.forceUpdate();
     };
 
-    //private checkInvalidateOnUpdate() {
-    //    if (this.invalidateOnUpdate) {
-    //        this.invalidateOnUpdate = false;
-    //        this.collection.recomputeCellSizesAndPositions();
-    //    }
-    //}
+    private checkRepositionOnUpdate() {
+        if (this.repositionOnUpdate) {
+            this.repositionOnUpdate = false;
 
-    //recomputeGridSize = ({ rowIndex }: { rowIndex: number }) => {
-    //    console.log('recomputeGridSize', rowIndex);
-    //};
+            this.cellPositioner(this.props.cellCount);
+
+            this.collection.calculateSizeAndPositionData();
+            this.collection.forceUpdate();
+        }
+    }
+
+    recomputeGridSize = ({ rowIndex }: { rowIndex: number }) => {
+        console.log('recomputeGridSize', rowIndex);
+    };
 
     private cellRenderer: CollectionCellRenderer = ({ index, key, style }) => (
         <CellMeasurer
@@ -79,6 +101,17 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
             {this.props.cellRenderer({ index, key, style })}
         </CellMeasurer>
     );
+
+    private cellSizeAndPositionGetter: CollectionCellSizeAndPositionGetter = ({ index }) => {
+        const position = this.positionCache.has(index) ? this.positionCache.get(index) : { x: 0, y: 0 };
+
+        return {
+            width: this.props.cellMeasurerCache.getWidth(index, 0),
+            height: 60,
+            x: position.x,
+            y: position.y,
+        };
+    };
 
     private cellGroupRenderer: CollectionCellGroupRenderer = ({ cellRenderer, cellSizeAndPositionGetter, indices }) => {
         const renderedCells = [];
@@ -103,14 +136,5 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
         }
 
         return renderedCells;
-    };
-
-    private cellSizeAndPositionGetter: CollectionCellSizeAndPositionGetter = ({ index }) => {
-        return {
-            width: this.props.cellMeasurerCache.getWidth(index, 0),
-            height: 60,
-            x: 20 + this.props.cellMeasurerCache.getWidth(index, 0),
-            y: index * 70,
-        };
     };
 }
