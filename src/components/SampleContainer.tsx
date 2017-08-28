@@ -3,7 +3,7 @@ import glamorous from 'glamorous';
 import { CellMeasurerCache } from 'react-virtualized';
 
 import { Sample } from '../api';
-import FlexGrid, { FlexGridCellRenderer } from './FlexGrid';
+import FlexGrid, { FlexGridCellRenderer } from './FlexGrid/FlexGrid';
 
 const Item = glamorous.div({
     padding: 10,
