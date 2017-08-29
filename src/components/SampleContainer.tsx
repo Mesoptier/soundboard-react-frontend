@@ -69,6 +69,7 @@ export default class SampleContainer extends React.Component<SampleContainerProp
                         autoHeight
                         scrollTop={params.scrollTop}
                         isScrolling={params.isScrolling}
+                        verticalOverscanSize={100}
                     />
                 )}
             </WindowScroller>

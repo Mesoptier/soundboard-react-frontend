@@ -25,6 +25,7 @@ interface FlexGridProps {
     autoHeight?: boolean;
     scrollTop?: number;
     isScrolling?: boolean;
+    verticalOverscanSize?: number;
 }
 
 export default class FlexGrid extends React.Component<FlexGridProps> {
@@ -67,6 +68,7 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
                 cellSizeAndPositionGetter={this.cellSizeAndPositionGetter}
                 autoHeight={this.props.autoHeight}
                 scrollTop={this.props.scrollTop}
+                verticalOverscanSize={this.props.verticalOverscanSize}
             />
         )
     }
