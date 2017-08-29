@@ -56,6 +56,16 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
         this.checkRepositionOnUpdate();
     }
 
+    componentWillReceiveProps(nextProps: FlexGridProps) {
+        if (this.props.width !== nextProps.width) {
+            this.layoutManager.reset({
+                width: nextProps.width,
+            });
+
+            this.repositionOnUpdate = true;
+        }
+    }
+
     render() {
         return (
             <Collection

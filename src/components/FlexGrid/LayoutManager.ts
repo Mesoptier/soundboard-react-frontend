@@ -33,6 +33,10 @@ export interface LayoutManagerParams {
     spacing: number;
 }
 
+interface ResetParams {
+    width: number;
+}
+
 export default class LayoutManager {
 
     private cellMeasurerCache: CellMeasurerCache;
@@ -47,6 +51,10 @@ export default class LayoutManager {
         this.containerWidth = params.width;
         this.rowHeight = params.rowHeight;
         this.spacing = params.spacing;
+    }
+
+    reset(params: ResetParams) {
+        this.containerWidth = params.width;
     }
 
     updateLayout(stopIndex: number) {
