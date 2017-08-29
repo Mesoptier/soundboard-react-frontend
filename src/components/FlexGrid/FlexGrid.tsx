@@ -81,7 +81,7 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
 
     updateLayout() {
         this.repositionOnUpdate = true;
-        this.checkRepositionOnUpdate();
+        //this.checkRepositionOnUpdate();
     }
 
     private checkRepositionOnUpdate() {

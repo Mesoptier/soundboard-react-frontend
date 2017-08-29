@@ -1,9 +1,10 @@
 import * as React from 'react';
 import glamorous from 'glamorous';
-import { CellMeasurerCache, WindowScroller, WindowScrollerChildProps } from 'react-virtualized';
+import { CellMeasurerCache, WindowScroller } from 'react-virtualized';
 
 import { Sample } from '../api';
 import FlexGrid, { FlexGridCellRenderer } from './FlexGrid/FlexGrid';
+import { PureComponent } from 'react';
 
 const Item = glamorous.div({
     padding: 10,
@@ -18,13 +19,18 @@ export interface SampleItemProps {
     style: React.CSSProperties;
 }
 
-function SampleItem({ sample, style }: SampleItemProps) {
-    return (
-        <Item style={style}>
-            <div>{sample.name}</div>
-            <div>{sample.categories.join(' / ')}</div>
-        </Item>
-    );
+class SampleItem extends PureComponent<SampleItemProps> {
+
+    render() {
+        const { style, sample } = this.props;
+        return (
+            <Item style={style}>
+                <div>{sample.name}</div>
+                <div>{sample.categories.join(' / ')}</div>
+            </Item>
+        );
+    }
+
 }
 
 export interface SampleContainerProps {
@@ -41,7 +47,7 @@ export default class SampleContainer extends React.Component<SampleContainerProp
         keyMapper: rowIndex => this.props.samples[rowIndex] ? this.props.samples[rowIndex].path : null,
     });
 
-    componentDidUpdate() {
+    componentWillReceiveProps() {
         this.flexGrid.updateLayout();
     }
 
