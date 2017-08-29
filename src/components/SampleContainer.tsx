@@ -1,6 +1,6 @@
 import * as React from 'react';
 import glamorous from 'glamorous';
-import { CellMeasurerCache } from 'react-virtualized';
+import { CellMeasurerCache, WindowScroller, WindowScrollerChildProps } from 'react-virtualized';
 
 import { Sample } from '../api';
 import FlexGrid, { FlexGridCellRenderer } from './FlexGrid/FlexGrid';
@@ -45,13 +45,20 @@ export default class SampleContainer extends React.Component<SampleContainerProp
 
     render() {
         return (
-            <FlexGrid
-                width={1000}
-                height={500}
-                cellCount={this.props.samples.length}
-                cellRenderer={this.cellRenderer}
-                cellMeasurerCache={this.cellMeasurerCache}
-            />
+            <WindowScroller>
+                {(params) => (
+                    <FlexGrid
+                        width={(params as any).width}
+                        height={params.height}
+                        cellCount={this.props.samples.length}
+                        cellRenderer={this.cellRenderer}
+                        cellMeasurerCache={this.cellMeasurerCache}
+                        autoHeight
+                        scrollTop={params.scrollTop}
+                        isScrolling={params.isScrolling}
+                    />
+                )}
+            </WindowScroller>
         );
     }
 

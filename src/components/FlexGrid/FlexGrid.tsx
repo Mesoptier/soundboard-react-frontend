@@ -22,6 +22,9 @@ interface FlexGridProps {
     cellCount: number;
     cellRenderer: FlexGridCellRenderer;
     cellMeasurerCache: CellMeasurerCache;
+    autoHeight?: boolean;
+    scrollTop?: number;
+    isScrolling?: boolean;
 }
 
 export default class FlexGrid extends React.Component<FlexGridProps> {
@@ -62,6 +65,8 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
                 cellRenderer={this.cellRenderer}
                 cellGroupRenderer={this.cellGroupRenderer}
                 cellSizeAndPositionGetter={this.cellSizeAndPositionGetter}
+                autoHeight={this.props.autoHeight}
+                scrollTop={this.props.scrollTop}
             />
         )
     }
