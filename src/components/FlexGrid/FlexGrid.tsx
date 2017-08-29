@@ -4,8 +4,7 @@ import {
     CollectionCellSizeAndPositionGetter,
 } from 'react-virtualized';
 
-import PositionCache from './PositionCache';
-import createCellPositioner, { CellPositioner } from './createCellPositioner';
+import { LayoutCache, default as LayoutManager } from './LayoutManager';
 
 export interface FlexGridCellRendererParams {
     index: number;
@@ -28,17 +27,17 @@ interface FlexGridProps {
 export default class FlexGrid extends React.Component<FlexGridProps> {
 
     private collection: Collection;
-    private cellPositioner: CellPositioner;
+    private layoutManager: LayoutManager;
 
     private repositionOnUpdate = false;
-    private positionCache = new PositionCache();
+    private layoutCache = new LayoutCache();
 
     constructor(props: FlexGridProps) {
         super(props);
 
-        this.cellPositioner = createCellPositioner({
+        this.layoutManager = new LayoutManager({
             cellMeasurerCache: this.props.cellMeasurerCache,
-            positionCache: this.positionCache,
+            layoutCache: this.layoutCache,
             width: this.props.width,
             rowHeight: 60,
             spacing: 10,
@@ -79,7 +78,7 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
         if (this.repositionOnUpdate) {
             this.repositionOnUpdate = false;
 
-            this.cellPositioner(this.props.cellCount);
+            this.layoutManager.updateLayout(this.props.cellCount);
 
             this.collection.calculateSizeAndPositionData();
             this.collection.forceUpdate();
@@ -103,13 +102,15 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
     );
 
     private cellSizeAndPositionGetter: CollectionCellSizeAndPositionGetter = ({ index }) => {
-        const position = this.positionCache.has(index) ? this.positionCache.get(index) : { x: 0, y: 0 };
+        if (this.layoutCache.has(index)) {
+            return this.layoutCache.get(index);
+        }
 
         return {
-            width: this.props.cellMeasurerCache.getWidth(index, 0),
-            height: 60,
-            x: position.x,
-            y: position.y,
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0,
         };
     };
 
