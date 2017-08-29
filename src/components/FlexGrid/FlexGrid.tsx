@@ -79,6 +79,11 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
         //this.collection.forceUpdate();
     };
 
+    updateLayout() {
+        this.repositionOnUpdate = true;
+        this.checkRepositionOnUpdate();
+    }
+
     private checkRepositionOnUpdate() {
         if (this.repositionOnUpdate) {
             this.repositionOnUpdate = false;
@@ -122,9 +127,12 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
     private cellGroupRenderer: CollectionCellGroupRenderer = ({ cellRenderer, cellSizeAndPositionGetter, indices }) => {
         const renderedCells = [];
 
-        // TODO: Only render visible items and items with unknown size
-
         for (let index = 0; index < this.props.cellCount; index++) {
+            // Skip cell if it is already measured and is not in view
+            if (this.props.cellMeasurerCache.has(index, 0) && indices.indexOf(index) === -1) {
+                continue;
+            }
+
             const rect = cellSizeAndPositionGetter({ index });
 
             const cellRendererProps = {
