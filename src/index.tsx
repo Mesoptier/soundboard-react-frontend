@@ -1,11 +1,15 @@
+import { css } from 'glamor';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Store } from 'redux';
 
-import { configureStore, State } from './redux';
-import Root from './containers/Root';
 import { fetchSamples } from './api';
+import Root from './containers/Root';
+import { configureStore, State } from './redux';
 import { setSamples } from './redux/samples/actions';
+
+css.global('html, body', {
+    margin: 0,
+});
 
 const store = configureStore();
 
@@ -15,8 +19,8 @@ fetchSamples().then(samples => {
 
 const container = document.createElement('div');
 document.body.appendChild(container);
-render(store);
+render();
 
-function render(store: Store<State>) {
+function render() {
     ReactDOM.render(<Root store={store} />, container);
 }
