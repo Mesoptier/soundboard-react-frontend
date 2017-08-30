@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "webpack",
-    "server": "webpack-dev-server --hot"
+    "build": "webpack --config webpack.prod.js",
+    "start": "webpack-dev-server --hot --config webpack.dev.js"
   },
   "dependencies": {
     "glamor": "^2.20.40",
@@ -31,7 +31,9 @@
     "tslint-config-prettier": "^1.4.0",
     "tslint-react": "^3.2.0",
     "typescript": "^2.4.2",
+    "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^3.5.5",
-    "webpack-dev-server": "^2.7.1"
+    "webpack-dev-server": "^2.7.1",
+    "webpack-merge": "^4.1.0"
   }
 }

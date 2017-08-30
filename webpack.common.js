@@ -1,17 +1,19 @@
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const config = {
-    entry: './src/index.tsx',
-    output: {
-        path: __dirname + '/dist',
-        filename: 'bundle.js',
+module.exports = {
+    entry: {
+        app: './src/index.tsx',
     },
 
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
 
-    devtool: 'source-map',
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].bundle.js',
+    },
 
     module: {
         rules: [
@@ -24,9 +26,8 @@ const config = {
 
     plugins: [
         new HtmlWebpackPlugin({
+            title: 'Soundboard',
             template: './src/index.ejs',
         }),
     ],
 };
-
-module.exports = config;
