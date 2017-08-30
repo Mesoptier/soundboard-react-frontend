@@ -4,7 +4,7 @@ import * as ReactDOM from 'react-dom';
 
 import { fetchSamples } from './api';
 import Root from './containers/Root';
-import { configureStore, State } from './redux';
+import { configureStore } from './redux';
 import { setSamples } from './redux/samples/actions';
 
 css.global('html, body', {
