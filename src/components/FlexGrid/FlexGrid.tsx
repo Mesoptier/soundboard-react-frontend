@@ -1,10 +1,15 @@
 import * as React from 'react';
 import {
-    CellMeasurer, CellMeasurerCache, Collection, CollectionCellGroupRenderer, CollectionCellRenderer,
+    CellMeasurer,
+    CellMeasurerCache,
+    Collection,
+    CollectionCellGroupRenderer,
+    CollectionCellRenderer,
     CollectionCellSizeAndPositionGetter,
 } from 'react-virtualized';
 
-import { LayoutCache, default as LayoutManager } from './LayoutManager';
+import LayoutCache from './LayoutCache';
+import LayoutManager from './LayoutManager';
 
 export interface FlexGridCellRendererParams {
     index: number;
@@ -12,9 +17,9 @@ export interface FlexGridCellRendererParams {
     style?: React.CSSProperties;
 }
 
-export interface FlexGridCellRenderer {
-    (params: FlexGridCellRendererParams): JSX.Element;
-}
+export type FlexGridCellRenderer = (
+    params: FlexGridCellRendererParams,
+) => JSX.Element;
 
 interface FlexGridProps {
     width: number;
@@ -29,7 +34,6 @@ interface FlexGridProps {
 }
 
 export default class FlexGrid extends React.Component<FlexGridProps> {
-
     private collection: Collection;
     private layoutManager: LayoutManager;
 
@@ -48,15 +52,15 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
         });
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         this.checkRepositionOnUpdate();
     }
 
-    componentDidUpdate() {
+    public componentDidUpdate() {
         this.checkRepositionOnUpdate();
     }
 
-    componentWillReceiveProps(nextProps: FlexGridProps) {
+    public componentWillReceiveProps(nextProps: FlexGridProps) {
         if (this.props.width !== nextProps.width) {
             this.layoutManager.reset({
                 width: nextProps.width,
@@ -66,7 +70,7 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
         }
     }
 
-    render() {
+    public render() {
         return (
             <Collection
                 ref={this.setCollectionRef}
@@ -80,21 +84,21 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
                 scrollTop={this.props.scrollTop}
                 verticalOverscanSize={this.props.verticalOverscanSize}
             />
-        )
+        );
     }
 
-    private setCollectionRef = (ref: Collection) => this.collection = ref;
-
-    private invalidateCellSizeAfterRender = ({ rowIndex }: { rowIndex: number }) => {
+    public invalidateCellSizeAfterRender = () => {
         this.repositionOnUpdate = true;
-        //this.collection.calculateSizeAndPositionData();
-        //this.collection.forceUpdate();
+        // this.collection.calculateSizeAndPositionData();
+        // this.collection.forceUpdate();
     };
 
-    updateLayout() {
+    public updateLayout() {
         this.repositionOnUpdate = true;
-        //this.checkRepositionOnUpdate();
+        // this.checkRepositionOnUpdate();
     }
+
+    private setCollectionRef = (ref: Collection) => (this.collection = ref);
 
     private checkRepositionOnUpdate() {
         if (this.repositionOnUpdate) {
@@ -106,10 +110,6 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
             this.collection.forceUpdate();
         }
     }
-
-    recomputeGridSize = ({ rowIndex }: { rowIndex: number }) => {
-        console.log('recomputeGridSize', rowIndex);
-    };
 
     private cellRenderer: CollectionCellRenderer = ({ index, key, style }) => (
         <CellMeasurer
@@ -123,7 +123,9 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
         </CellMeasurer>
     );
 
-    private cellSizeAndPositionGetter: CollectionCellSizeAndPositionGetter = ({ index }) => {
+    private cellSizeAndPositionGetter: CollectionCellSizeAndPositionGetter = ({
+        index,
+    }) => {
         if (this.layoutCache.has(index)) {
             return this.layoutCache.get(index);
         }
@@ -136,26 +138,35 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
         };
     };
 
-    private cellGroupRenderer: CollectionCellGroupRenderer = ({ cellRenderer, cellSizeAndPositionGetter, indices }) => {
+    private cellGroupRenderer: CollectionCellGroupRenderer = ({
+        cellRenderer,
+        cellSizeAndPositionGetter,
+        indices,
+    }) => {
         const renderedCells = [];
 
         for (let index = 0; index < this.props.cellCount; index++) {
             // Skip cell if it is already measured and is not in view
-            if (this.props.cellMeasurerCache.has(index, 0) && indices.indexOf(index) === -1) {
+            if (
+                this.props.cellMeasurerCache.has(index, 0) &&
+                indices.indexOf(index) === -1
+            ) {
                 continue;
             }
 
             const rect = cellSizeAndPositionGetter({ index });
 
+            const style: React.CSSProperties = {
+                position: 'absolute',
+                width: rect.width,
+                height: rect.height,
+                transform: `translate(${rect.x}px, ${rect.y}px)`,
+            };
+
             const cellRendererProps = {
                 index,
                 key: index as any,
-                style: {
-                    position: 'absolute',
-                    width: rect.width,
-                    height: rect.height,
-                    transform: `translate(${rect.x}px, ${rect.y}px)`,
-                } as React.CSSProperties,
+                style,
             };
 
             renderedCells.push(cellRenderer(cellRendererProps));

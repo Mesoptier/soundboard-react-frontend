@@ -13,9 +13,11 @@ export const getVisibleSamples = createSelector(
             return samples;
         }
 
-        return samples.filter((sample) => {
-            return sample.name.includes(query)
-                || sample.categories.some(category => category.includes(query));
+        return samples.filter(sample => {
+            return (
+                sample.name.includes(query) ||
+                sample.categories.some(category => category.includes(query))
+            );
         });
     },
 );

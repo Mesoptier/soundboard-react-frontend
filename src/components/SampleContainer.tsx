@@ -1,64 +1,40 @@
 import * as React from 'react';
-import glamorous from 'glamorous';
 import { CellMeasurerCache, WindowScroller } from 'react-virtualized';
 
 import { Sample } from '../api';
 import FlexGrid, { FlexGridCellRenderer } from './FlexGrid/FlexGrid';
-import { PureComponent } from 'react';
-
-const Item = glamorous.div({
-    padding: 10,
-    boxSizing: 'border-box',
-
-    background: '#eee',
-    whiteSpace: 'nowrap',
-});
-
-export interface SampleItemProps {
-    sample: Sample;
-    style: React.CSSProperties;
-}
-
-class SampleItem extends PureComponent<SampleItemProps> {
-
-    render() {
-        const { style, sample } = this.props;
-        return (
-            <Item style={style}>
-                <div>{sample.name}</div>
-                <div>{sample.categories.join(' / ')}</div>
-            </Item>
-        );
-    }
-
-}
+import SampleItem from './SampleItem';
 
 export interface SampleContainerProps {
     samples: Sample[];
 }
 
-export default class SampleContainer extends React.Component<SampleContainerProps> {
-
+export default class SampleContainer extends React.Component<
+    SampleContainerProps
+> {
     private flexGrid: FlexGrid;
 
     private cellMeasurerCache = new CellMeasurerCache({
         defaultWidth: 100,
         fixedHeight: true,
-        keyMapper: rowIndex => this.props.samples[rowIndex] ? this.props.samples[rowIndex].path : null,
+        keyMapper: rowIndex =>
+            this.props.samples[rowIndex]
+                ? this.props.samples[rowIndex].path
+                : null,
     });
 
-    componentWillReceiveProps() {
+    public componentWillReceiveProps() {
         this.flexGrid.updateLayout();
     }
 
-    cellRenderer: FlexGridCellRenderer = ({ index, style }) => (
+    public cellRenderer: FlexGridCellRenderer = ({ index, style }) => (
         <SampleItem sample={this.props.samples[index]} style={style} />
     );
 
-    render() {
+    public render() {
         return (
             <WindowScroller>
-                {(params) => (
+                {params => (
                     <FlexGrid
                         ref={this.setFlexGridRef}
                         width={(params as any).width}
@@ -66,7 +42,7 @@ export default class SampleContainer extends React.Component<SampleContainerProp
                         cellCount={this.props.samples.length}
                         cellRenderer={this.cellRenderer}
                         cellMeasurerCache={this.cellMeasurerCache}
-                        autoHeight
+                        autoHeight={true}
                         scrollTop={params.scrollTop}
                         isScrolling={params.isScrolling}
                         verticalOverscanSize={100}
@@ -76,6 +52,5 @@ export default class SampleContainer extends React.Component<SampleContainerProp
         );
     }
 
-    private setFlexGridRef = (ref: FlexGrid) => this.flexGrid = ref;
-
+    private setFlexGridRef = (ref: FlexGrid) => (this.flexGrid = ref);
 }

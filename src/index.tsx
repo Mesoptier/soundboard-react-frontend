@@ -9,10 +9,9 @@ import { setSamples } from './redux/samples/actions';
 
 const store = configureStore();
 
-fetchSamples()
-    .then((samples) => {
-        store.dispatch(setSamples(samples));
-    });
+fetchSamples().then(samples => {
+    store.dispatch(setSamples(samples));
+});
 
 const container = document.createElement('div');
 document.body.appendChild(container);
