@@ -11,6 +11,8 @@ const config = {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
 
+    devtool: 'source-map',
+
     module: {
         rules: [
             {

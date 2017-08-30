@@ -2,7 +2,7 @@ import { combineReducers, compose, createStore, Store } from 'redux';
 import samples, { SamplesState } from './samples/reducer';
 
 export interface State {
-    samples: SamplesState,
+    samples: SamplesState;
 }
 
 export function configureStore(): Store<State> {
@@ -10,6 +10,7 @@ export function configureStore(): Store<State> {
         samples,
     });
 
-    const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    const composeEnhancers =
+        (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
     return createStore<State>(reducer, composeEnhancers());
 }

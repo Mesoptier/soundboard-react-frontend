@@ -11,7 +11,10 @@ const initialState: SamplesState = {
     query: '',
 };
 
-export default function samplesReducer(state: SamplesState = initialState, action: Action): SamplesState {
+export default function samplesReducer(
+    state: SamplesState = initialState,
+    action: Action,
+): SamplesState {
     switch (action.type) {
         case 'SET_SAMPLES':
             return { ...state, samples: action.samples };
