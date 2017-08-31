@@ -1,9 +1,12 @@
+import glamorous from 'glamorous';
 import * as React from 'react';
 import { CellMeasurerCache, WindowScroller } from 'react-virtualized';
 
 import { Sample } from '../api';
 import FlexGrid, { FlexGridCellRenderer } from './FlexGrid/FlexGrid';
 import SampleItem from './SampleItem';
+
+const Container = glamorous.div({}, ({ theme }) => theme.sampleContainer);
 
 export interface SampleContainerProps {
     samples: Sample[];
@@ -33,22 +36,24 @@ export default class SampleContainer extends React.Component<
 
     public render() {
         return (
-            <WindowScroller>
-                {params => (
-                    <FlexGrid
-                        ref={this.setFlexGridRef}
-                        width={(params as any).width}
-                        height={params.height}
-                        cellCount={this.props.samples.length}
-                        cellRenderer={this.cellRenderer}
-                        cellMeasurerCache={this.cellMeasurerCache}
-                        autoHeight={true}
-                        scrollTop={params.scrollTop}
-                        isScrolling={params.isScrolling}
-                        verticalOverscanSize={100}
-                    />
-                )}
-            </WindowScroller>
+            <Container>
+                <WindowScroller>
+                    {params => (
+                        <FlexGrid
+                            ref={this.setFlexGridRef}
+                            width={(params as any).width}
+                            height={params.height}
+                            cellCount={this.props.samples.length}
+                            cellRenderer={this.cellRenderer}
+                            cellMeasurerCache={this.cellMeasurerCache}
+                            autoHeight={true}
+                            scrollTop={params.scrollTop}
+                            isScrolling={params.isScrolling}
+                            verticalOverscanSize={100}
+                        />
+                    )}
+                </WindowScroller>
+            </Container>
         );
     }
 

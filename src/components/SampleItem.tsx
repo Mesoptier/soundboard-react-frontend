@@ -3,13 +3,18 @@ import * as React from 'react';
 
 import { Sample } from '../api';
 
-const Item = glamorous.div({
-    padding: 10,
-    boxSizing: 'border-box',
+const Item = glamorous.div(
+    {
+        padding: 10,
+        boxSizing: 'border-box',
 
-    background: '#eee',
-    whiteSpace: 'nowrap',
-});
+        borderRadius: 3,
+        whiteSpace: 'nowrap',
+        textAlign: 'center',
+        cursor: 'pointer',
+    },
+    ({ theme }) => theme.sampleItem,
+);
 
 export interface SampleItemProps {
     sample: Sample;

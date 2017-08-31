@@ -33,6 +33,9 @@ interface FlexGridProps {
     verticalOverscanSize?: number;
 }
 
+const margin = 15;
+const itemSpacing = 10;
+
 export default class FlexGrid extends React.Component<FlexGridProps> {
     private collection: Collection;
     private layoutManager: LayoutManager;
@@ -46,9 +49,9 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
         this.layoutManager = new LayoutManager({
             cellMeasurerCache: this.props.cellMeasurerCache,
             layoutCache: this.layoutCache,
-            width: this.props.width,
+            width: this.props.width - margin * 2,
             rowHeight: 60,
-            spacing: 10,
+            spacing: itemSpacing,
         });
     }
 
@@ -63,7 +66,7 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
     public componentWillReceiveProps(nextProps: FlexGridProps) {
         if (this.props.width !== nextProps.width) {
             this.layoutManager.reset({
-                width: nextProps.width,
+                width: nextProps.width - margin * 2,
             });
 
             this.repositionOnUpdate = true;
@@ -83,6 +86,7 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
                 autoHeight={this.props.autoHeight}
                 scrollTop={this.props.scrollTop}
                 verticalOverscanSize={this.props.verticalOverscanSize}
+                style={{ padding: margin }}
             />
         );
     }
