@@ -50,7 +50,7 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
             cellMeasurerCache: this.props.cellMeasurerCache,
             layoutCache: this.layoutCache,
             width: this.props.width - margin * 2,
-            rowHeight: 60,
+            rowHeight: 56,
             spacing: itemSpacing,
         });
     }
@@ -86,7 +86,7 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
                 autoHeight={this.props.autoHeight}
                 scrollTop={this.props.scrollTop}
                 verticalOverscanSize={this.props.verticalOverscanSize}
-                style={{ padding: margin }}
+                style={{ padding: margin, outline: 'none' }}
             />
         );
     }

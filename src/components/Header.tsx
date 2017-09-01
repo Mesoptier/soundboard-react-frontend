@@ -1,7 +1,23 @@
+import glamorous from 'glamorous';
 import * as React from 'react';
 
 import Search from '../containers/Search';
 
+const Container = glamorous.div(
+    {
+        position: 'fixed',
+        zIndex: 1,
+        top: 0,
+        left: 0,
+        right: 0,
+    },
+    ({ theme }) => theme.Header.root,
+);
+
 export default function Header() {
-    return <Search />;
+    return (
+        <Container>
+            <Search />
+        </Container>
+    );
 }

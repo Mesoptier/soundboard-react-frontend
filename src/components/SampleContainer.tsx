@@ -6,7 +6,16 @@ import { Sample } from '../api';
 import FlexGrid, { FlexGridCellRenderer } from './FlexGrid/FlexGrid';
 import SampleItem from './SampleItem';
 
-const Container = glamorous.div({}, ({ theme }) => theme.sampleContainer);
+const Container = glamorous.div(
+    {
+        // Improve scrolling performance
+        willChange: 'transform',
+    },
+    ({ theme }) => ({
+        paddingTop: theme.Header.root.height,
+        ...theme.SampleContainer.root,
+    }),
+);
 
 export interface SampleContainerProps {
     samples: Sample[];

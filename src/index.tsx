@@ -1,4 +1,3 @@
-import { css } from 'glamor';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
@@ -7,9 +6,7 @@ import Root from './containers/Root';
 import { configureStore } from './redux';
 import { setSamples } from './redux/samples/actions';
 
-css.global('html, body', {
-    margin: 0,
-});
+import './style';
 
 const store = configureStore();
 
