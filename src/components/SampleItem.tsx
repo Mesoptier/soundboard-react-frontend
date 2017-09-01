@@ -6,6 +6,10 @@ import { Sample } from '../api';
 
 const Item = glamorous.div(
     {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+
         padding: 10,
         boxSizing: 'border-box',
 
