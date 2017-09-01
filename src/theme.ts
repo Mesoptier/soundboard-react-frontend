@@ -17,13 +17,13 @@ const theme = {
     SampleItem: {
         root: {
             backgroundColor: '#fff',
-            boxShadow: '0 1px 2px #d4d4d4',
+            boxShadow: `0 1px 2px ${rgba('black', 0.1)}`,
 
-            ...transitions('background-color 150ms ease', 'box-shadow 150ms ease'),
+            ...transitions('background-color 250ms ease', 'box-shadow 250ms ease'),
 
             '&:hover': {
                 backgroundColor: darken(0.03, '#fff'),
-                boxShadow: '0 2px 4px #d4d4d4',
+                boxShadow: `0 1px 3px ${rgba('black', 0.15)}`,
             },
         },
         name: {
