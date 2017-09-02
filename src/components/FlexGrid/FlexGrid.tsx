@@ -85,6 +85,7 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
                 cellSizeAndPositionGetter={this.cellSizeAndPositionGetter}
                 autoHeight={this.props.autoHeight}
                 scrollTop={this.props.scrollTop}
+                isScrolling={this.props.isScrolling}
                 verticalOverscanSize={this.props.verticalOverscanSize}
                 style={{ padding: margin, outline: 'none' }}
             />
@@ -137,16 +138,16 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
         return {
             x: 0,
             y: 0,
-            width: 0,
-            height: 0,
+            width: -1,
+            height: -1,
         };
     };
 
-    private cellGroupRenderer: CollectionCellGroupRenderer = ({
-        cellRenderer,
-        cellSizeAndPositionGetter,
-        indices,
-    }) => {
+    private cellGroupRenderer: CollectionCellGroupRenderer = params => {
+        const { cellRenderer, cellSizeAndPositionGetter, indices } = params;
+        const { cellCache }: { cellCache: React.ReactNode[] } = params as any;
+        const { isScrolling } = this.props;
+
         const renderedCells = [];
 
         for (let index = 0; index < this.props.cellCount; index++) {
@@ -155,6 +156,11 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
                 this.props.cellMeasurerCache.has(index, 0) &&
                 indices.indexOf(index) === -1
             ) {
+                continue;
+            }
+
+            if (isScrolling && index in cellCache) {
+                renderedCells.push(cellCache[index]);
                 continue;
             }
 
@@ -173,7 +179,13 @@ export default class FlexGrid extends React.Component<FlexGridProps> {
                 style,
             };
 
-            renderedCells.push(cellRenderer(cellRendererProps));
+            const renderedCell = cellRenderer(cellRendererProps);
+
+            if (isScrolling) {
+                cellCache[index] = renderedCell;
+            }
+
+            renderedCells.push(renderedCell);
         }
 
         return renderedCells;

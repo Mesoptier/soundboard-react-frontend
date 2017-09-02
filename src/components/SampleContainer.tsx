@@ -3,8 +3,8 @@ import * as React from 'react';
 import { CellMeasurerCache, WindowScroller } from 'react-virtualized';
 
 import { Sample } from '../api';
-import FlexGrid, { FlexGridCellRenderer } from './FlexGrid/FlexGrid';
 import SampleItem from '../containers/SampleItem';
+import FlexGrid, { FlexGridCellRenderer } from './FlexGrid/FlexGrid';
 
 const Container = glamorous.div(
     {
@@ -39,8 +39,8 @@ export default class SampleContainer extends React.Component<
         this.flexGrid.updateLayout();
     }
 
-    public cellRenderer: FlexGridCellRenderer = ({ index, style }) => (
-        <SampleItem sample={this.props.samples[index]} style={style} />
+    public cellRenderer: FlexGridCellRenderer = ({ key, index, style }) => (
+        <SampleItem key={key} sample={this.props.samples[index]} style={style} />
     );
 
     public render() {

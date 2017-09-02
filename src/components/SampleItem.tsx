@@ -50,7 +50,14 @@ export default class SampleItem extends React.PureComponent<SampleItemProps> {
     public render() {
         const { sample, style, isPlaying, playSample } = this.props;
         return (
-            <Root style={style} onClick={playSample} isPlaying={isPlaying}>
+            <Root
+                style={{
+                    ...style,
+                    width: style.width === -1 ? 'auto' : style.width,
+                }}
+                onClick={playSample}
+                isPlaying={isPlaying}
+            >
                 <Name>{sample.name}</Name>
                 <Category>{sample.categories.join(' / ')}</Category>
             </Root>
