@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { Sample } from '../api';
 
-const Item = glamorous.div(
+const Root = glamorous.div<{ isPlaying: boolean; theme: any }>(
     {
         display: 'flex',
         flexDirection: 'column',
@@ -21,6 +21,7 @@ const Item = glamorous.div(
         WebkitTapHighlightColor: 'transparent',
     },
     ({ theme }) => theme.SampleItem.root,
+    ({ theme, isPlaying }) => isPlaying && theme.SampleItem.root_isPlaying,
 );
 
 const Name = glamorous.div(
@@ -40,16 +41,19 @@ const Category = glamorous.div(
 export interface SampleItemProps {
     sample: Sample;
     style: React.CSSProperties;
+
+    isPlaying: boolean;
+    playSample: () => void;
 }
 
 export default class SampleItem extends React.PureComponent<SampleItemProps> {
     public render() {
-        const { style, sample } = this.props;
+        const { sample, style, isPlaying, playSample } = this.props;
         return (
-            <Item style={style}>
+            <Root style={style} onClick={playSample} isPlaying={isPlaying}>
                 <Name>{sample.name}</Name>
                 <Category>{sample.categories.join(' / ')}</Category>
-            </Item>
+            </Root>
         );
     }
 }

@@ -16,22 +16,33 @@ const theme = {
 
     SampleItem: {
         root: {
+            color: '#111',
             backgroundColor: '#fff',
             boxShadow: `0 1px 2px ${rgba('black', 0.1)}`,
 
-            ...transitions('background-color 250ms ease', 'box-shadow 250ms ease'),
+            ...transitions(
+                'background-color 100ms ease',
+                'color 100ms ease',
+                'box-shadow 250ms ease',
+            ),
 
             '&:hover': {
                 backgroundColor: darken(0.03, '#fff'),
                 boxShadow: `0 1px 3px ${rgba('black', 0.15)}`,
             },
         },
-        name: {
-            color: '#111',
+        root_isPlaying: {
+            color: '#fff',
+            backgroundColor: '#0c7cfe',
+
+            '&:hover': {
+                backgroundColor: '#0c7cfe',
+            },
         },
+        name: {},
         category: {
-            color: '#888',
-        }
+            opacity: 0.8,
+        },
     },
 };
 

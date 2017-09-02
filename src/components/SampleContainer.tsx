@@ -4,7 +4,7 @@ import { CellMeasurerCache, WindowScroller } from 'react-virtualized';
 
 import { Sample } from '../api';
 import FlexGrid, { FlexGridCellRenderer } from './FlexGrid/FlexGrid';
-import SampleItem from './SampleItem';
+import SampleItem from '../containers/SampleItem';
 
 const Container = glamorous.div(
     {
