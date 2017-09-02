@@ -19,7 +19,6 @@ const theme = {
             color: '#111',
             backgroundColor: '#fff',
             boxShadow: `0 1px 2px ${rgba('black', 0.1)}`,
-
             ...transitions(
                 'background-color 100ms ease',
                 'color 100ms ease',
