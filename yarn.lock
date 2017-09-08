@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@types/howler@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@types/howler/-/howler-2.0.3.tgz#4adef7852a408b871e82d2a35822c889a00304be"
+
 "@types/react-addons-perf@^0.14.18":
   version "0.14.18"
   resolved "https://registry.yarnpkg.com/@types/react-addons-perf/-/react-addons-perf-0.14.18.tgz#9b17823b4eb6052ac3e3d91d35f409a9d3adabce"
@@ -1553,6 +1557,10 @@ hoist-non-react-statics@^2.2.1:
 hosted-git-info@^2.1.4:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.5.0.tgz#6d60e34b3abbc8313062c3b798ef8d901a07af3c"
+
+howler@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/howler/-/howler-2.0.4.tgz#cbd5db875f9833e1aa6084568951d788fc687f92"
 
 hpack.js@^2.1.6:
   version "2.1.6"

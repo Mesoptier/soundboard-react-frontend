@@ -6,8 +6,10 @@ export interface Sample {
     categories: string[];
 }
 
+export const apiBase = 'https://viller.men/soundboard-api';
+
 export async function fetchSamples(): Promise<Sample[]> {
-    const response = await fetch('https://viller.men/soundboard-api/samples');
+    const response = await fetch(`${apiBase}/samples`);
     const data = await response.json();
     return data.samples;
 }

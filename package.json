@@ -10,6 +10,7 @@
   "dependencies": {
     "glamor": "^2.20.40",
     "glamorous": "^4.4.0",
+    "howler": "^2.0.4",
     "polished": "^1.7.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
@@ -19,6 +20,7 @@
     "reselect": "^3.0.1"
   },
   "devDependencies": {
+    "@types/howler": "^2.0.3",
     "@types/react": "^16.0.5",
     "@types/react-addons-perf": "^0.14.18",
     "@types/react-dom": "^15.5.4",
