@@ -1,10 +1,21 @@
-import { darken, rgba, transitions } from 'polished';
+import { darken, placeholder, rgba, transitions } from 'polished';
 
 const theme = {
     Header: {
         root: {
-            height: 80,
-            backgroundColor: rgba('black', 0.8),
+            height: 90,
+            backgroundColor: rgba('#000', 0.8),
+        },
+    },
+
+    Search: {
+        input: {
+            backgroundColor: '#fff',
+            color: '#111',
+
+            ...placeholder({
+                color: rgba('#111', 0.5),
+            }),
         },
     },
 
@@ -18,7 +29,7 @@ const theme = {
         root: {
             color: '#111',
             backgroundColor: '#fff',
-            boxShadow: `0 1px 2px ${rgba('black', 0.1)}`,
+            boxShadow: `0 1px 2px ${rgba('#000', 0.1)}`,
             ...transitions(
                 'background-color 100ms ease',
                 'color 100ms ease',
@@ -27,7 +38,7 @@ const theme = {
 
             '&:hover': {
                 backgroundColor: darken(0.03, '#fff'),
-                boxShadow: `0 1px 3px ${rgba('black', 0.15)}`,
+                boxShadow: `0 1px 3px ${rgba('#000', 0.15)}`,
             },
         },
         root_isPlaying: {

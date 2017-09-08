@@ -10,6 +10,9 @@ const Container = glamorous.div(
         top: 0,
         left: 0,
         right: 0,
+        padding: 15,
+        boxSizing: 'border-box',
+        display: 'flex',
     },
     ({ theme }) => theme.Header.root,
 );
