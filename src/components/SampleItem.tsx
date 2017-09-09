@@ -6,10 +6,15 @@ import { Sample } from '../api';
 
 const Root = glamorous.div<{ isPlaying: boolean; theme: any }>(
     {
+        margin: 5,
+        flex: '1 0 auto',
+        maxWidth: '100%',
+
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
 
+        height: 56,
         padding: 10,
         boxSizing: 'border-box',
 
@@ -34,13 +39,13 @@ const Name = glamorous.div(
 const Category = glamorous.div(
     {
         fontSize: 14,
+        ...ellipsis() as CSSProperties,
     },
     ({ theme }) => theme.SampleItem.category,
 );
 
 export interface SampleItemProps {
     sample: Sample;
-    style: React.CSSProperties;
 
     isPlaying: boolean;
     playSample: () => void;
@@ -48,13 +53,9 @@ export interface SampleItemProps {
 
 export default class SampleItem extends React.PureComponent<SampleItemProps> {
     public render() {
-        const { sample, style, isPlaying, playSample } = this.props;
+        const { sample, isPlaying, playSample } = this.props;
         return (
             <Root
-                style={{
-                    ...style,
-                    width: style.width === -1 ? 'auto' : style.width,
-                }}
                 onClick={playSample}
                 isPlaying={isPlaying}
             >
