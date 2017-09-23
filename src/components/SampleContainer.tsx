@@ -3,8 +3,9 @@ import * as React from 'react';
 
 import { Sample } from '../api';
 import SampleItem from '../containers/SampleItem';
+import { ThemeProps } from '../theme';
 
-const Container = glamorous.div(
+const Container = glamorous.div<ThemeProps>(
     {
         display: 'flex',
         flexWrap: 'wrap',

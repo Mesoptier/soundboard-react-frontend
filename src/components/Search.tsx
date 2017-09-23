@@ -1,7 +1,8 @@
 import glamorous from 'glamorous';
 import * as React from 'react';
+import { ThemeProps } from '../theme';
 
-const Input = glamorous.input(
+const Input = glamorous.input<ThemeProps>(
     {
         flex: '1 0 auto',
         padding: '10px 20px',
