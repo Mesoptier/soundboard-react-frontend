@@ -11,7 +11,18 @@ export default class Player {
         });
     }
 
-    public static on(event: string, callback: () => void, sampleId: number, soundId: number) {
+    public static stopAll() {
+        Object.keys(Player.howls)
+            .map(sampleId => Player.howls[sampleId])
+            .forEach(howl => howl.stop());
+    }
+
+    public static on(
+        event: string,
+        callback: () => void,
+        sampleId: number,
+        soundId: number,
+    ) {
         if (!Player.howls[sampleId]) {
             throw new Error(`Howl not initialized for sample ${sampleId}`);
         }
@@ -19,7 +30,12 @@ export default class Player {
         Player.howls[sampleId].on(event, callback, soundId);
     }
 
-    public static off(event: string, callback: () => void, sampleId: number, soundId: number) {
+    public static off(
+        event: string,
+        callback: () => void,
+        sampleId: number,
+        soundId: number,
+    ) {
         if (!Player.howls[sampleId]) {
             throw new Error(`Howl not initialized for sample ${sampleId}`);
         }
@@ -27,7 +43,7 @@ export default class Player {
         Player.howls[sampleId].off(event, callback, soundId);
     }
 
-    private static howls: { [sampleId: number]: Howl } = {};
+    private static howls: { [sampleId: string]: Howl } = {};
 
     private static getHowl(sample: Sample): Howl {
         if (!Player.howls[sample.id]) {

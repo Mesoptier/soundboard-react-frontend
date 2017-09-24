@@ -11,3 +11,5 @@ export const playStarted = actionCreator<{ sample: Sample; soundId: number }>(
 export const playStopped = actionCreator<{ sample: Sample; soundId: number }>(
     'PLAY_SAMPLE_STOPPED',
 );
+
+export const stopAllSamples = actionCreator('STOP_ALL_SAMPLES');
