@@ -1,5 +1,11 @@
 import { darken, placeholder, rgba, transitions } from 'polished';
 
+export type Theme = any;
+
+export interface ThemeProps {
+    theme: Theme;
+}
+
 const theme = {
     Header: {
         root: {

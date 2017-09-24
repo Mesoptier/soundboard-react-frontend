@@ -2,8 +2,9 @@ import glamorous from 'glamorous';
 import * as React from 'react';
 
 import Search from '../containers/Search';
+import { ThemeProps } from '../theme';
 
-const Container = glamorous.div(
+const Container = glamorous.div<ThemeProps>(
     {
         position: 'fixed',
         zIndex: 1,
