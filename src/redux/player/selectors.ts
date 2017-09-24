@@ -8,7 +8,7 @@ export const getPlaying = (state: State) => state.player.playing;
 export const isSamplePlaying = createSelector(
     getPlaying,
     (state: State, props: { sample: Sample }) => props.sample,
-    (playing: Sample[], sample: Sample): boolean => {
-        return playing.indexOf(sample) !== -1;
+    (playing: { [sampleId: number]: number[] }, sample: Sample): boolean => {
+        return playing[sample.id] && playing[sample.id].length > 0;
     },
 );
