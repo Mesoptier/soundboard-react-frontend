@@ -1,24 +1,30 @@
 import { eventChannel } from 'redux-saga';
 import { call, put, take, takeEvery } from 'redux-saga/effects';
+import { Action } from 'typescript-fsa';
 
 import { Sample } from '../../api';
 import Player from '../../helpers/Player';
-import { Action, playEnded, playStarted } from './actions';
+import { playSample, playStarted, playStopped } from './actions';
 
 export default function* playerSaga() {
     yield watchPlaySample();
 }
 
 export function* watchPlaySample() {
-    yield takeEvery('PLAY_REQUESTED', playSample);
+    yield takeEvery(playSample.type, playSampleWorker);
 }
 
-export function* playSample(action: Action) {
-    const soundId = yield call(Player.play, action.sample);
-    yield put(playStarted(action.sample, soundId));
-    const endChannel = yield call(createEndChannel, action.sample.id, soundId);
+export function* playSampleWorker(action: Action<Sample>) {
+    const sample = action.payload;
+
+    // Play the sample
+    const soundId = yield call(Player.play, sample);
+    yield put(playStarted({ sample, soundId }));
+
+    // Wait for the sample to stop
+    const endChannel = yield call(createEndChannel, sample.id, soundId);
     yield take(endChannel);
-    yield put(playEnded(action.sample, soundId));
+    yield put(playStopped({ sample, soundId }));
 }
 
 function createEndChannel(sampleId: number, soundId: number) {
