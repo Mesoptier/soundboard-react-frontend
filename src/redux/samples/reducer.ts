@@ -1,26 +1,30 @@
+import { combineReducers, Reducer } from 'redux';
+
 import { Sample } from '../../api';
-import { Action } from './actions';
+import { setQuery, setSamples } from './actions';
 
 export interface SamplesState {
-    samples: Sample[];
-    query: string;
+    readonly samples: Sample[];
+    readonly query: string;
 }
 
-const initialState: SamplesState = {
-    samples: [],
-    query: '',
+const samples: Reducer<SamplesState['samples']> = (state = [], action) => {
+    if (setSamples.match(action)) {
+        return action.payload;
+    }
+
+    return state;
 };
 
-export default function samplesReducer(
-    state: SamplesState = initialState,
-    action: Action,
-): SamplesState {
-    switch (action.type) {
-        case 'SET_SAMPLES':
-            return { ...state, samples: action.samples };
-        case 'SET_QUERY':
-            return { ...state, query: action.query };
-        default:
-            return state;
+const query: Reducer<SamplesState['query']> = (state = '', action) => {
+    if (setQuery.match(action)) {
+        return action.payload;
     }
-}
+
+    return state;
+};
+
+export default combineReducers<SamplesState>({
+    samples,
+    query,
+})
