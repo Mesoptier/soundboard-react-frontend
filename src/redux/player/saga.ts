@@ -3,7 +3,7 @@ import { all, call, put, race, take, takeEvery } from 'redux-saga/effects';
 import { Action } from 'typescript-fsa';
 
 import { Sample } from '../../api';
-import Player from '../../helpers/Player';
+import player from '../../helpers/player';
 import {
     playSample,
     playStarted,
@@ -21,7 +21,7 @@ export function* stopAllSamplesWatcher() {
 }
 
 export function* stopAllSamplesWorker() {
-    yield call(Player.stopAll);
+    yield call([player, player.stopAll]);
 }
 
 // Play sample
@@ -33,40 +33,26 @@ export function* playSampleWorker(action: Action<Sample>) {
     const sample = action.payload;
 
     // Play the sample
-    const soundId = yield call(Player.play, sample);
-    yield put(playStarted({ sample, soundId }));
+    const audioId = yield call([player, player.play], sample);
+    yield put(playStarted({ sample, audioId }));
 
-    // Wait for the sample to stop
-    const endChannel = yield call(
-        playerEventChannel,
-        'end',
-        sample.id,
-        soundId,
-    );
-    const stopChannel = yield call(
-        playerEventChannel,
-        'stop',
-        sample.id,
-        soundId,
-    );
-
-    yield race({
-        end: take(endChannel),
-        stop: take(stopChannel),
-    });
-    yield put(playStopped({ sample, soundId }));
+    // Wait for the sample to end
+    const endChannel = yield call(playerEventChannel, `end.${audioId}`);
+    yield take(endChannel);
+    endChannel.close();
+    yield put(playStopped({ sample, audioId }));
 }
 
-function playerEventChannel(event: string, sampleId: number, soundId: number) {
+function playerEventChannel(event: string) {
     return eventChannel(emitter => {
         const callback = () => {
             emitter({});
         };
 
-        Player.on(event, callback, sampleId, soundId);
+        player.on(event, callback);
 
         return () => {
-            Player.off(event, callback, sampleId, soundId);
+            player.off(event, callback);
         };
     });
 }

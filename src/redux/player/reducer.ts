@@ -9,20 +9,20 @@ export interface PlayerState {
 
 const playing: Reducer<PlayerState['playing']> = (state = {}, action) => {
     if (playStarted.match(action)) {
-        const { sample: { id: sampleId }, soundId } = action.payload;
+        const { sample: { id: sampleId }, audioId } = action.payload;
 
         return {
             ...state,
-            [sampleId]: [...(state[sampleId] || []), soundId],
+            [sampleId]: [...(state[sampleId] || []), audioId],
         };
     }
 
     if (playStopped.match(action)) {
-        const { sample: { id: sampleId }, soundId } = action.payload;
+        const { sample: { id: sampleId }, audioId } = action.payload;
 
         return {
             ...state,
-            [sampleId]: state[sampleId].filter(id => id !== soundId),
+            [sampleId]: state[sampleId].filter(id => id !== audioId),
         };
     }
 
