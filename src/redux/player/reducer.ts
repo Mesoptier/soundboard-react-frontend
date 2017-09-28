@@ -1,22 +1,34 @@
-import { Sample } from '../../api';
-import { Action } from './actions';
+import { combineReducers, Reducer } from 'redux';
+import { playStarted, playStopped } from './actions';
 
 export interface PlayerState {
-    playing: Sample[];
+    readonly playing: {
+        readonly [sampleId: number]: number[];
+    };
 }
 
-const initialState: PlayerState = {
-    playing: [],
+const playing: Reducer<PlayerState['playing']> = (state = {}, action) => {
+    if (playStarted.match(action)) {
+        const { sample: { id: sampleId }, audioId } = action.payload;
+
+        return {
+            ...state,
+            [sampleId]: [...(state[sampleId] || []), audioId],
+        };
+    }
+
+    if (playStopped.match(action)) {
+        const { sample: { id: sampleId }, audioId } = action.payload;
+
+        return {
+            ...state,
+            [sampleId]: state[sampleId].filter(id => id !== audioId),
+        };
+    }
+
+    return state;
 };
 
-export default function samplesReducer(
-    state: PlayerState = initialState,
-    action: Action,
-): PlayerState {
-    switch (action.type) {
-        case 'PLAY_SAMPLE':
-            return { ...state, playing: [action.sample] };
-        default:
-            return state;
-    }
-}
+export default combineReducers<PlayerState>({
+    playing,
+});

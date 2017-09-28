@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+
 import { State } from '../';
 import { Sample } from '../../api';
 

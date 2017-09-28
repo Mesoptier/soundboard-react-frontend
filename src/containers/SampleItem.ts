@@ -3,7 +3,7 @@ import { connect, Dispatch } from 'react-redux';
 import { Sample } from '../api';
 import SampleItem from '../components/SampleItem';
 import { State } from '../redux';
-import { playSample } from '../redux/player/actions';
+import { playSample, stopAllSamples } from '../redux/player/actions';
 import { isSamplePlaying } from '../redux/player/selectors';
 
 interface OwnProps {
@@ -17,6 +17,7 @@ const mapStateToProps = (state: State, ownProps: OwnProps) => ({
 const mapDispatchToProps = (dispatch: Dispatch<State>, ownProps: OwnProps) => {
     return {
         playSample() {
+            dispatch(stopAllSamples());
             dispatch(playSample(ownProps.sample));
         },
     };

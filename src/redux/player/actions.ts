@@ -1,20 +1,15 @@
+import actionCreatorFactory from 'typescript-fsa';
+
 import { Sample } from '../../api';
-import Player from '../../helpers/Player';
 
-export type Action =
-    | { type: 'PLAY_SAMPLE'; sample: Sample }
-    | { type: 'STOP_SAMPLE'; sample: Sample };
+const actionCreator = actionCreatorFactory('player');
 
-export const playSample = (sample: Sample): Action => {
-    Player.play(sample);
+export const playSample = actionCreator<Sample>('PLAY_SAMPLE');
+export const playStarted = actionCreator<{ sample: Sample; audioId: number }>(
+    'PLAY_SAMPLE_STARTED',
+);
+export const playStopped = actionCreator<{ sample: Sample; audioId: number }>(
+    'PLAY_SAMPLE_STOPPED',
+);
 
-    return {
-        type: 'PLAY_SAMPLE',
-        sample,
-    };
-};
-
-export const stopSample = (sample: Sample): Action => ({
-    type: 'STOP_SAMPLE',
-    sample,
-});
+export const stopAllSamples = actionCreator('STOP_ALL_SAMPLES');
